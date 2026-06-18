@@ -17,6 +17,12 @@ export default function (pi: ExtensionAPI): void {
 					return builtin;
 				}
 
+				// If it's the exact start of the line (index 0) and no space yet, 
+				// pi-tui natively handles slash commands perfectly.
+				if (textBeforeCursor.startsWith("/") && textBeforeCursor.indexOf(" ") === -1) {
+					return builtin;
+				}
+
 				const token = match[1] || "";
 				const commands = pi.getCommands();
 				
@@ -24,7 +30,8 @@ export default function (pi: ExtensionAPI): void {
 					value: `/${cmd.name}`,
 					label: `/${cmd.name}`,
 					description: cmd.description,
-				}));
+					_isInlineSlash: true,
+				} as any));
 
 				let filteredCommands = commandItems;
 				if (token.trim()) {
@@ -51,6 +58,23 @@ export default function (pi: ExtensionAPI): void {
 			},
 
 			applyCompletion(lines, cursorLine, cursorCol, item, prefix) {
+				if ((item as any)._isInlineSlash) {
+					const currentLine = lines[cursorLine] || "";
+					const beforePrefix = currentLine.slice(0, cursorCol - prefix.length);
+					const afterCursor = currentLine.slice(cursorCol);
+					
+					const suffix = afterCursor.startsWith(" ") ? "" : " ";
+					const newLine = beforePrefix + item.value + suffix + afterCursor;
+					const newLines = [...lines];
+					newLines[cursorLine] = newLine;
+					
+					return {
+						lines: newLines,
+						cursorLine,
+						cursorCol: beforePrefix.length + item.value.length + suffix.length,
+					};
+				}
+				
 				return current.applyCompletion(lines, cursorLine, cursorCol, item, prefix);
 			},
 
