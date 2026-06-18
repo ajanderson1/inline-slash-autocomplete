@@ -1,0 +1,6 @@
+{
+  "name": "inline-slash-autocomplete",
+  "version": "1.0.0",
+  "description": "Autocomplete skills, prompts, and extensions mid-sentence",
+  "type": "module"
+}

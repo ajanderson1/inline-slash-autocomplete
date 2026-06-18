@@ -1,0 +1,29 @@
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Ephemeral dev-server state
+DEV_SERVER_CONTEXT.md
+
+# Worktrees
+.worktrees/
+
+# Verification artifacts
+assets/verification/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# AI assistant caches, transcripts, and local overrides (PUBLIC repos only)
+.claude/
+.cursor/
+.codex/
+.opencode/
+.aider*
+CLAUDE.local.md
+*.local.md
+GEMINI.md
