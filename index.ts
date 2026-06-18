@@ -1,14 +1,11 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { fuzzyFilter } from "@earendil-works/pi-tui";
-import { InlineSlashEditor } from "./editor.js";
 
 export default function (pi: ExtensionAPI): void {
 	pi.on("session_start", (_event, ctx) => {
-		if (ctx.hasUI && !ctx.ui.getEditorComponent()) {
-			ctx.ui.setEditorComponent((tui, theme, keybindings) => new InlineSlashEditor(tui, theme, keybindings));
-		}
-
 		ctx.ui.addAutocompleteProvider((current) => ({
+			triggerCharacters: ["/"],
+			
 			async getSuggestions(lines, cursorLine, cursorCol, options) {
 				const currentLine = lines[cursorLine] ?? "";
 				const textBeforeCursor = currentLine.slice(0, cursorCol);
