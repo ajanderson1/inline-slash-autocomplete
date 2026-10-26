@@ -1,5 +1,5 @@
 # AGENTS.md
-> Project-specific context. Global conventions: ~/.conventions/CONVENTIONS.md.
+> Project-specific context.
 
 ## What this is
 Pi extension that expands skills and prompt templates inside a draft, including at the start of later lines. First-line slash commands remain native; inline extension commands and built-ins are excluded.
